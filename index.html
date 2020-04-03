@@ -4,16 +4,16 @@
 </head>
 <body>
 <div id="main-container">
-    <div id=screen><span id="input-screen">4+5</span></div>
+    <div id=screen><span id="screen-output"></span></div>
     <div id="keyboard">
-        <button class="key ac-key" style="grid-area: AC">AC</button>
-        <button class="key" style="grid-area: undo">undo</button>
-        <button class="key operator-key" style="grid-area: eq">=</button>
-        <button class="key operator-key" style="grid-area: op1">+</button>
-        <button class="key operator-key" style="grid-area: op2">-</button>
-        <button class="key operator-key" style="grid-area: op3">*</button>
-        <button class="key operator-key" style="grid-area: op4">/</button>
-        <button class="key operator-key" style="grid-area: sep">,</button>
+        <button data-value="reset" class="key ac-key" style="grid-area: AC">AC</button>
+        <button data-value="undo" class="key" style="grid-area: undo">undo</button>
+        <button data-value="equal" class="key operator-key" style="grid-area: eq">=</button>
+        <button data-value="add" class="key operator-key" style="grid-area: op1">+</button>
+        <button data-value="substract" class="key operator-key" style="grid-area: op2">-</button>
+        <button data-value="multiply" class="key operator-key" style="grid-area: op3">*</button>
+        <button data-value="divide" class="key operator-key" style="grid-area: op4">/</button>
+        <button data-value="sep" class="key operator-key" style="grid-area: sep">,</button>
     </div>
 </div>
 <script src="calculator.js"></script>
