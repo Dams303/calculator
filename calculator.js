@@ -9,18 +9,14 @@ function operate(operator, a, b) {
 
 function operateAll () {
     console.log('operateAll: ' + op1 + ' ' + op2 );
-    outputBuffer = '' + operate (add, op1, op2);
+    const res = operate (currentOperator, op1, op2)
+    outputBuffer = '' + res;
+    return res;
 }
 
 //function createOperatorKeys()
 function addListeners()
 {
-    /*let keyboard = document.getElementById('keyboard');
-    let key = document.createElement('button');
-    key.dataset.add
-    key.classList.add('key');
-    key.classList.add('operator-key');
-    key.style.gridArea = 'eq';*/
     let operatorKeys = document.getElementsByClassName('key');
     for (key of operatorKeys) {
         key.addEventListener('click', keyPressed);
@@ -49,38 +45,40 @@ function keyPressed(e) {
 
     if (value == 'reset') resetAll();  
 
-    else if (value == 'add') {
-        currentOperator = value;
+    else if (value == 'add' || value == 'substract' || value =="multiply" || value =="divide") {
+        currentOperator = window[value];
         // need to have both operands valid to compute
         if (op1 == undefined) { 
             op1 = flushInput();
         }
-        else { // both operands valid
+        else if (op2 == undefined) { // both operands valid
             op2 = flushInput();
-            //operateAll();
-            // op1 = op2;
-            // op2 = undefined;
+            //op1 = operateAll();
+            //op2 = undefined;
         }   
+        else {
+           op1 = operateAll();
+           op2 = undefined;
+        }
     }
-    else if(value =='equal')
-    {   
+    else if(value =='equal') {   
         op2 = flushInput();
-        operateAll();
-        resetOperands();
+        if (!isNaN(op1) && !isNaN(op2)) {
+            op1 = operateAll();
+            op2 = undefined;    
+        }
     }
     else if (!isNaN(value)) { // num keys
-        let number = value;
-        inputBuffer += number;
+        inputBuffer += value;
         outputBuffer = inputBuffer; 
-    }
-    else {
-    }
+    } 
     updateScreen();
 }
 
 function flushInput() {
     let temp = parseInt(inputBuffer);
-    console.log({temp});
+    if (isNaN(temp)) 
+      temp = undefined;
     inputBuffer = '';
     return temp;
 }
@@ -114,6 +112,14 @@ resetAll();
 //createOperatorKeys();
 updateScreen();
 
+function te() {
+let a = parseInt ('');
+if (isNaN(a)) a = undefined;
+console.log(a);
+}
+let b = '';
+b = te();
+console.log(b);
 // let a = '';
 // a = ''+3;
 // console.log(typeof a);
