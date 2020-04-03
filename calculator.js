@@ -14,7 +14,6 @@ function operateAll () {
     return res;
 }
 
-//function createOperatorKeys()
 function addListeners()
 {
     let operatorKeys = document.getElementsByClassName('key');
@@ -31,8 +30,7 @@ function createNumKeys()
         let key = document.createElement('button');
         key.classList.add('key');
         key.style.gridArea = 'n'+ i;
-        key.dataset.value = i;
-        //key.addEventListener('click', keyPressed);      
+        key.dataset.value = i;   
         key.textContent = i;
         keyboard.appendChild(key);
     }   
@@ -47,14 +45,12 @@ function keyPressed(e) {
 
     else if (value == 'add' || value == 'substract' || value =="multiply" || value =="divide") {
         currentOperator = window[value];
-        // need to have both operands valid to compute
         if (op1 == undefined) { 
             op1 = flushInput();
         }
-        else if (op2 == undefined) { // both operands valid
+        else if (op2 == undefined) {
             op2 = flushInput();
-            //op1 = operateAll();
-            //op2 = undefined;
+
         }   
         else {
            op1 = operateAll();
@@ -74,6 +70,8 @@ function keyPressed(e) {
     } 
     updateScreen();
 }
+// 2 + 3 + 5 
+// 2 + 3 x 5 x 6
 
 function flushInput() {
     let temp = parseInt(inputBuffer);
@@ -111,19 +109,6 @@ addListeners();
 resetAll();
 //createOperatorKeys();
 updateScreen();
-
-function te() {
-let a = parseInt ('');
-if (isNaN(a)) a = undefined;
-console.log(a);
-}
-let b = '';
-b = te();
-console.log(b);
-// let a = '';
-// a = ''+3;
-// console.log(typeof a);
-//console.log (operate (add, 3, -4));
 
 // module.exports = {
 // 	add,
