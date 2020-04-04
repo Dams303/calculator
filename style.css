@@ -26,10 +26,18 @@ body {
   font-size: 24px;
   border-radius: 6px;
   text-align: right;
+
+  text-overflow: hidden;
+
+  /* Required for text-overflow to do anything */
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 #screen-output {
   padding-right: 12px;
+  padding-left: 12px;
+  
 }
 
 #keyboard {

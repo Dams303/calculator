@@ -1,3 +1,35 @@
+
+function createCalculator() {
+  let currentOperator, op1, op2 ,input, output;  
+    
+  let calc = {};
+  // interface methods
+  calc.appendDigit = (string) => input +=string;
+  calc.addDecimal = () => { input += !input.includes('.') ? '.' : '' };
+  calc.undo = () => { input = input.substring(0, input.length-1) };
+  calc.reset = () => {input = undefined, output = undefined, op1 = undefined, op2 = undefined, currentOperator = undefined;};
+  //calc.equal = () => 
+//  calc.getOutputDispay = () => output;
+
+  // internal logic
+  calc.add = (a,b) => a+b;      
+  calc.substract = (a,b) => a-b;
+  calc.multiply = (a,b) => a*b;
+  calc.divide = (a,b) => a/b;
+  calc.operate = (operator, a,b) => operator(a,b);
+
+  return calc;
+}
+
+// interface
+
+
+let calc = createCalculator();
+console.log(calc.operate(add, 2,3));
+console.log(calc.currentOperator);
+
+
+// OLD WAY TO DO:
 function add(a, b) {return a+b;}
 function substract (a,b) {return a-b;}
 function multiply(a, b) {return a*b;}
@@ -14,16 +46,14 @@ function operateAll () {
     return res;
 }
 
-function addListeners()
-{
-    let operatorKeys = document.getElementsByClassName('key');
-    for (key of operatorKeys) {
+function addListeners() {
+    let keys = document.getElementsByClassName('key');
+    for (key of keys) {
         key.addEventListener('click', keyPressed);
     }
 }
 
-function createNumKeys()
-{
+function createNumKeys() {
     let keyboard = document.getElementById('keyboard');
     for (let i=0; i<10; ++i)
     {
@@ -40,8 +70,18 @@ function keyPressed(e) {
 
     console.log('value: ' + this.dataset.value);
     const value = this.dataset.value;
-
-    if (value == 'reset') resetAll();  
+    
+    if (value == 'sep') {
+        if (!inputBuffer.includes('.')) {  
+            inputBuffer = inputBuffer += '.';
+            outputBuffer = inputBuffer;
+        }
+    }
+    else if (value == 'undo') {
+        inputBuffer = inputBuffer.substring(0, inputBuffer.length-1);
+        outputBuffer = inputBuffer; 
+    }
+    else if (value == 'reset') resetAll();  
 
     else if (value == 'add' || value == 'substract' || value =="multiply" || value =="divide") {
         currentOperator = window[value];
@@ -50,7 +90,6 @@ function keyPressed(e) {
         }
         else if (op2 == undefined) {
             op2 = flushInput();
-
         }   
         else {
            op1 = operateAll();
@@ -70,20 +109,13 @@ function keyPressed(e) {
     } 
     updateScreen();
 }
-// 2 + 3 + 5 
-// 2 + 3 x 5 x 6
 
 function flushInput() {
-    let temp = parseInt(inputBuffer);
+    let temp = parseFloat(inputBuffer);
     if (isNaN(temp)) 
       temp = undefined;
     inputBuffer = '';
     return temp;
-}
-
-function resetOperands() {
-    op1 = undefined;
-    op2 = undefined;
 }
 
 function resetAll() {
@@ -107,10 +139,8 @@ function updateScreen() {
 createNumKeys();
 addListeners();
 resetAll();
-//createOperatorKeys();
 updateScreen();
 
 // module.exports = {
-// 	add,
-// 	subtract
+// 	add, substract
 // }
