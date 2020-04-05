@@ -25,35 +25,35 @@ function createCalculator() {
 
     // interface methods
     c.addDigit = (digit) => {
-        if (isCurrentOperator())
+        if (c.isCurrentOperator())
             c.input[c.currentPos()+1] = digit; //go to next digit   /*c.input = input.replace(/^0+/g, '');*/
         else { 
-            if (c.currentPos() == 0 && c.currentInput() == '0' && digit == '0') {} // do nothing
-            else c.input[c.currentPos()] += digit; // happen digits        
+            if (c.currentPos() == 0 && c.currentInput() == '0') { 
+                if(digit == '0') ;
+                else c.input[c.currentPos()] = digit; 
+            } else 
+                c.input[c.currentPos()] += digit;   
         }
-        //callDisplayListener();
     }
     c.addNumber = (number) => { (c.currentPos()==0) ? c.input[0] = number.toString() :
                                                      c.input.push(number.toString()) };  // for testing purpose
 
     c.addPoint = () => {
          c.input[c.currentPos()] += !c.input[c.currentPos()].includes('.') ? '.' : '';
-         //callDisplayListener(); 
     }
 
     c.addOperator = (op) => {        
         isOperator(c.currentInput()) ? c.input[c.currentPos()] = op : c.input[c.currentPos()+1] = op;
-        //callDisplayListener();
     }
     
     c.undo = () => {
-        if (isCurrentOperator()) c.input.pop();
+        if (c.isCurrentOperator()) c.input.pop();
         else {
-            if(currentInput().length <= 1) c.input.pop();
+            if(c.currentInput().length <= 1) c.input.pop();
             else c.input[c.currentPos()] = c.currentInput().subString(0, c.currentInput.length-1);
         }
     }
-    c.reset = () => c.input = [];
+    c.reset = () => c.input = ['0'];
     c.getDisplay = () => disp = c.input.reduce((out, cell) => out+=cell, '');
 
 
@@ -68,7 +68,6 @@ function createCalculator() {
     }
     c.equal = () => {
         operators.forEach(c.processWithOperator);
-        //callDisplayListener();
         return c.input[0];
     }
     
@@ -112,10 +111,9 @@ function keyPressed(e) {
     else if ('op' in this.dataset)
         c.addOperator(this.dataset.op);
     else if ('action' in this.dataset)
-       c[this.dataset.action]  // undo, equal, reset
+       c[this.dataset.action]()  // undo, equal, reset
     else if ('sep' in this.dataset)
         c.addPoint();      
-    else 
         console.log('unknown action:');
     
     updateDisplay();
