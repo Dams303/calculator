@@ -47,11 +47,13 @@ function createCalculator() {
     }
     
     c.undo = () => {
-        if (c.isCurrentOperator()) c.input.pop();
+        if (c.isCurrentOperator()) c.input.pop(); 
         else {
             if(c.currentInput().length <= 1) c.input.pop();
-            else c.input[c.currentPos()] = c.currentInput().subString(0, c.currentInput.length-1);
+            else 
+                c.input[c.currentPos()] = c.currentInput().substring(0, c.currentInput().length-1); 
         }
+        if (!c.input.length) c.input[0] = '0';
     }
     c.reset = () => c.input = ['0'];
     c.getDisplay = () => disp = c.input.reduce((out, cell) => out+=cell, '');
