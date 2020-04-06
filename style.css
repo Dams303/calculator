@@ -1,8 +1,8 @@
 body {
     display: flex;
     align-items: center;
-    /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,217,219,0.47522759103641454) 73%, rgba(219,249,255,1) 100%);  */
-    background-color: rgb(245, 244, 244);
+     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,217,219,0.47522759103641454) 73%, rgba(219,249,255,1) 100%);  
+    /* background-color: rgb(245, 244, 244); */
 }
 
 #main-container {
@@ -113,5 +113,6 @@ body {
   margin-left: 180px;
   font-size: 9.5px;
   font-family: system-ui;
-  opacity: 0.2;
+  /* opacity: 0.2; */
+  opacity: 0.3;
 }

@@ -1,10 +1,3 @@
-
-//////////////////////////////////////////////////////////
-//const operators = ['*', '/', '+', '-'];
-const operators = ['mul', 'div', 'add', 'sub'];
-
-let isOperator = (op) => operators.includes(op);
-
 function createCalculator() {
     let c = {};
     
@@ -14,20 +7,24 @@ function createCalculator() {
     c.divide = (a, b) => a / b;
     c.operate = (operator, a, b) => operator(a, b);
 
-    c.operatorsFunc = [ {op: 'mul', func: c.multiply},
-                        {op: 'div', func: c.divide},
-                        {op: 'add', func: c.add}, 
-                        {op: 'sub', func: c.substract}];
+    c.operatorsFunc = [ {op: 'mul', out: '×', func: c.multiply},
+                        {op: 'div', out: '÷', func: c.divide},
+                        {op: 'add', out: '+', func: c.add}, 
+                        {op: 'sub', out: '-', func: c.substract}];
+
+    c.operators = c.operatorsFunc.map(elt => elt.op);
+    c.isOperator = op => c.operators.includes(op);
+
     c.input = ['0'];
     c.currentPos = () => c.input.length -1; 
     c.currentInput = () => c.input[c.currentPos()]; 
-    c.isCurrentOperator = () => isOperator (c.currentInput());
+    c.isCurrentOperator = () => c.isOperator (c.currentInput());
 
     // interface methods
     c.addDigit = (digit) => {
         if (c.isCurrentOperator())
             c.input[c.currentPos()+1] = digit; //go to next digit   /*c.input = input.replace(/^0+/g, '');*/
-        else { 
+        else {
             if (c.currentPos() == 0 && c.currentInput() == '0') { 
                 if(digit == '0') ;
                 else c.input[c.currentPos()] = digit; 
@@ -43,24 +40,23 @@ function createCalculator() {
     }
 
     c.addOperator = (op) => {        
-        isOperator(c.currentInput()) ? c.input[c.currentPos()] = op : c.input[c.currentPos()+1] = op;
+        c.isOperator(c.currentInput()) ? c.input[c.currentPos()] = op : c.input[c.currentPos()+1] = op;
     }
     
     c.undo = () => {
-        if (c.isCurrentOperator()) c.input.pop(); 
-        else {
-            if(c.currentInput().length <= 1) c.input.pop();
-            else 
-                c.input[c.currentPos()] = c.currentInput().substring(0, c.currentInput().length-1); 
-        }
+        if (c.isCurrentOperator() || c.currentInput().length <= 1) c.input.pop(); 
+        else 
+            c.input[c.currentPos()] = c.currentInput().substring(0, c.currentInput().length-1); 
+        
         if (!c.input.length) c.input[0] = '0';
     }
     c.reset = () => c.input = ['0'];
-    c.getDisplay = () => disp = c.input.reduce((out, cell) => out+=cell, '');
+    c.getDisplay = () => 
+      disp = c.input.reduce((out, cell) => out += c.isOperator(cell) ? c.findOperatorByOp(cell).out : cell, '');
 
-
+    c.findOperatorByOp = (op) => c.operatorsFunc.find((elt) => elt.op == op);
     c.processWithOperator = (op) => {
-        let operator = c.operatorsFunc.find((elt) => elt.op == op); // lookup for operators
+        let operator = c.findOperatorByOp(op); // lookup for operators
 
         while ( (index = c.input.indexOf(op)) != -1) {
             const op1 = parseFloat(c.input[index-1]);
@@ -69,7 +65,7 @@ function createCalculator() {
         }
     }
     c.equal = () => {
-        operators.forEach(c.processWithOperator);
+        c.operators.forEach(c.processWithOperator);
         return c.input[0];
     }
     
