@@ -16,10 +16,11 @@ function createCalculator() {
     c.isOperator = op => c.operators.includes(op);
 
     c.input = ['0'];
+    c.history = [];
     c.currentPos = () => c.input.length - 1;
     c.currentInput = () => c.input[c.currentPos()];
     c.isCurrentOperator = () => c.isOperator(c.currentInput());
-
+    
     // interface methods
     c.addDigit = (digit) => {
         if (c.isCurrentOperator())
@@ -53,8 +54,9 @@ function createCalculator() {
         if (!c.input.length) c.input[0] = '0';
     }
     c.reset = () => c.input = ['0'];
-    c.getDisplay = () =>
-        disp = c.input.reduce((out, cell) => out += c.isOperator(cell) ? c.findOperatorByOp(cell).out : cell, '');
+
+    c.generateDisplay = (input) => input.reduce((out, cell) => out += c.isOperator(cell) ? c.findOperatorByOp(cell).out : cell, '');
+    c.getDisplay = () => c.generateDisplay(c.input);
 
     c.findOperatorByOp = (op) => c.operatorsFunc.find((elt) => elt.op == op);
     c.processWithOperator = (op) => {
@@ -67,32 +69,37 @@ function createCalculator() {
         }
     }
     c.equal = () => {
+        c.history.push([...c.input]);
+        console.table(c.history);
         c.operators.forEach(c.processWithOperator);
         return c.input[0];
     }
 
-    //c.callDisplayListener = () => c.displayListener(c.getDisplay());
-    //c.addDisplayListener = (listener) => c.displayListener = listener;
-
+    c.getHistory = () => {
+        let input = c.history[c.history.length-1];
+        return input ? c.generateDisplay(input) : '';
+    }
     return c;
 }
 
-//textarea.addEventListener('keydown', (e) => {
-
-
-
-
-
 //////////////////////////////////////////////////////////
-// test new interface:
+// test calculator:
 {
-    let c = createCalculator();
-    c.addNumber(1); c.addOperator('add'); c.addNumber(3); console.log('test1+4=5:' + c.equal());
+ //   let c = createCalculator();
+ //   c.addNumber(1); c.addOperator('add'); c.addNumber(3); console.log('test1+3=5:' + c.equal());
 }
 {
-    let c = createCalculator();
-    c.addNumber(4); c.addOperator('add'); c.addNumber(2); c.addOperator('mul'); c.addNumber(3); console.log('test4+2*3=10:' + c.equal());
+//    let c = createCalculator();
+//    c.addNumber(4); c.addOperator('add'); c.addNumber(2); c.addOperator('mul'); c.addNumber(3); console.log('test4+2*3=10:' + c.equal());
 }
+//////////////////////////////////////////////////////////
+// ** Known bugs: 
+// 
+
+// ** Improvments: 
+// ans and history feature: 70% done
+// trim zero and rounding decimals
+
 //////////////////////////////////////////////////////////
 
 function addListeners() {
@@ -123,7 +130,6 @@ function keyClicked(e) {
         c[this.dataset.action]()  // undo, equal, reset
     else if ('sep' in this.dataset)
         c.addPoint();
-    console.log('unknown action:');
 
     updateDisplay();
 }
@@ -133,14 +139,14 @@ let secondaryOutput = document.getElementById('secondary-output');
 
 function updateDisplay() {
     mainOutput.textContent = c.getDisplay();
-    secondaryOutput.textContent = 'Ans';
+    secondaryOutput.textContent = 'Ans = ' + c.getHistory();
 }
 let c = createCalculator();
 createNumKeys();
 addListeners();
 updateDisplay();
 
-function handleKeyboardActions(key) {
+function handleKeyDown(key) {
     if (!isNaN(key)) {c.addDigit(key);           updateDisplay()}
     else if (key == '.') {c.addPoint();          updateDisplay()}
     else if (key == '+') {c.addOperator('add');  updateDisplay()}
@@ -149,10 +155,10 @@ function handleKeyboardActions(key) {
     else if (key == '/') {c.addOperator('div');  updateDisplay()}
     else if (key == 'Enter') {c.equal();         updateDisplay()}
     else if (key == 'Backspace') {c.undo();      updateDisplay()}
-    //else if (key == 'c') {c.reset();             updateDisplay()}
+    else if (key == 'c') {c.reset();             updateDisplay()}
 }
 
-document.onkeydown = event => handleKeyboardActions(event.key);
+document.onkeydown = event => { event.preventDefault(); handleKeyDown(event.key);};
 
 // module.exports = {
 // // 	add, substract
