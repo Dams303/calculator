@@ -36,7 +36,7 @@ function createCalculator() {
     c.addNumber = (number) => {
         (c.currentPos() == 0) ? c.input[0] = number.toString() :
         c.input.push(number.toString())
-    };  // for testing purpose
+    };  // for unit testing purpose
 
     c.addPoint = () => {
         c.input[c.currentPos()] += !c.input[c.currentPos()].includes('.') ? '.' : '';
@@ -65,14 +65,20 @@ function createCalculator() {
         while ((index = c.input.indexOf(op)) != -1) {
             const op1 = parseFloat(c.input[index - 1]);
             const op2 = parseFloat(c.input[index + 1]);
-            c.input.splice(index - 1, 3, c.operate(operator.func, op1, op2));
+            c.input.splice(index - 1, 3, c.operate(operator.func, op1, op2).toString());
         }
     }
     c.equal = () => {
-        c.history.push([...c.input]);
+        c.feedHistory();
         console.table(c.history);
         c.operators.forEach(c.processWithOperator);
+        //console.table(c.input);
         return c.input[0];
+    }
+    const HISTORY_SIZE = 10;
+    c.feedHistory = () => {
+        if(c.history.length == HISTORY_SIZE) c.history.shift(); 
+        c.history.push([...c.input]);
     }
 
     c.getHistory = () => {
@@ -94,11 +100,11 @@ function createCalculator() {
 }
 //////////////////////////////////////////////////////////
 // ** Known bugs: 
+// seq :5 + 7 = 5 doesnt reinit the seq to 5 -> look for a solution.
 // 
-
 // ** Improvments: 
-// ans and history feature: 70% done
-// trim zero and rounding decimals
+// ans and history feature: 70% done.
+// trim zero and rounding decimals.
 
 //////////////////////////////////////////////////////////
 
@@ -158,7 +164,11 @@ function handleKeyDown(key) {
     else if (key == 'c') {c.reset();             updateDisplay()}
 }
 
-document.onkeydown = event => { event.preventDefault(); handleKeyDown(event.key);};
+document.onkeydown = event => { 
+    if(!event.key.startsWith('F')) // allow F12 shorcuts for Chrome dev environment.
+        event.preventDefault();  
+    handleKeyDown(event.key);
+}
 
 // module.exports = {
 // // 	add, substract
