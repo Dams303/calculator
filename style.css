@@ -1,7 +1,8 @@
 body {
     display: flex;
     align-items: center;
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,217,219,0.47522759103641454) 73%, rgba(219,249,255,1) 100%);
+    /* background-image: url("./bkg-white.jpg"); */
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,217,219,0.47522759103641454) 73%, rgba(219,249,255,1) 100%); 
     /* background-color: rgb(245, 244, 244); */
 }
 

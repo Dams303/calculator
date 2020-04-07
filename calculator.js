@@ -5,23 +5,33 @@ function createCalculator() {
     c.substract = (a, b) => a - b;
     c.multiply = (a, b) => a * b;
     c.divide = (a, b) => a / b;
+    c.percent = (a) => a*0.01;
     c.operate = (operator, a, b) => operator(a, b);
 
     c.operatorsFunc = [
-      { op: 'mul', out: ' × ', func: c.multiply,    operands: 2 },
-      { op: 'div', out: ' ÷ ', func: c.divide,      operands: 2 }, 
-      { op: 'add', out: ' + ', func: c.add,         operands: 2 },
-      { op: 'sub', out: ' - ', func: c.substract,   operands: 2 }];
+      { op: 'per', out: '% ',  func: c.percent,     type: 'unary' }, 
+      { op: 'mul', out: ' × ', func: c.multiply,    type: 'binary' },
+      { op: 'div', out: ' ÷ ', func: c.divide,      type: 'binary' }, 
+      { op: 'add', out: ' + ', func: c.add,         type: 'binary' },
+      { op: 'sub', out: ' - ', func: c.substract,   type: 'binary' }];
+
+    c.isUnaryOperator = op =>  c.isOperator(op) && c.findOperatorByOp(op).type == 'unary';
+    c.isBinaryOperator = op => c.isOperator(op) && c.findOperatorByOp(op).type == 'binary';
 
     c.validate = () => {
         let checkOperandsValid = (cell, index) => {
-            if (c.isOperator(cell) /*&& cell.operands == 2*/)  // only check for operators with 2 operands
-                return !isNaN(c.input[index-1]) && !isNaN(c.input[index+1]);
+            if (c.isOperator(cell))
+            {    
+                const operatorType = c.findOperatorByOp(cell).type;
+                if (operatorType == 'binary')
+                    return ( !isNaN(c.input[index-1]) || c.isUnaryOperator(c.input[index-1]) ) && !isNaN(c.input[index+1]);
+                else if (operatorType == 'unary')
+                    return !isNaN(c.input[index-1]) || c.isUnaryOperator(c.input[index-1]); // allow to chain % like 4%%
+            }
             return true;
         }
         return c.input.every(checkOperandsValid);
     }
-
     c.operators = c.operatorsFunc.map(elt => elt.op);
     c.isOperator = op => c.operators.includes(op);
 
@@ -33,6 +43,7 @@ function createCalculator() {
     
     // interface methods
     c.addDigit = (digit) => {
+        if (c.isUnaryOperator(c.currentInput())) return;
         if (c.isCurrentOperator())
             c.input[c.currentPos() + 1] = digit;
         else {
@@ -56,11 +67,16 @@ function createCalculator() {
     }
 
     c.addOperator = (op) => {
-        c.isOperator(c.currentInput()) ? c.input[c.currentPos()] = op : c.input[c.currentPos() + 1] = op;
+        // add cell when: 4%, 4%%, 4.%, 4x; %x;
+        // replace cell when: x% => when current is binary and op is unary
+        if (c.isCurrentOperator() && c.isBinaryOperator(c.currentInput()) && c.isUnaryOperator(op))
+            c.input[c.currentPos()] = op;
+        else 
+            c.input[c.currentPos() + 1] = op;
     }
 
     c.undo = () => {
-        if (c.isCurrentOperator() || c.currentInput().length <= 1) c.input.pop();
+        if (c.isCurrentOperator() || c.currentInput().length <= 1 || c.currentInput() == 'Infinity') c.input.pop();
         else
             c.input[c.currentPos()] = c.currentInput().substring(0, c.currentInput().length - 1);
 
@@ -73,25 +89,26 @@ function createCalculator() {
 
     c.findOperatorByOp = (op) => c.operatorsFunc.find((elt) => elt.op == op);
 
-    const MAX_DECIMALS = 12;
+    const MAX_DECIMALS = 9;
     c.processWithOperator = (op) => {
         let operator = c.findOperatorByOp(op); // lookup for operators
 
         while ((index = c.input.indexOf(op)) != -1) {
             const op1 = parseFloat(c.input[index - 1]);
             const op2 = parseFloat(c.input[index + 1]);
-            c.input.splice(index - 1, 3, c.operate(operator.func, op1, op2));
+            c.input.splice(index - 1, operator.type == 'binary' ? 3:2, c.operate(operator.func, op1, op2));
         }
     }
     c.equal = () => {
         if (c.validate()) {
             c.feedHistory();
             //console.table(c.history);
+            console.table(c.input);
             c.operators.forEach(c.processWithOperator);
-            c.input[0] = parseFloat( c.input[0].toFixed(MAX_DECIMALS)).toString();
-
+            c.input[0] = parseFloat( parseFloat(c.input[0]).toFixed(MAX_DECIMALS)).toString();
             console.table(c.input);
         }
+        else {console.log('validation failed'); console.table(c.input);};
         return c.input;
     }
     const HISTORY_SIZE = 10;
@@ -108,10 +125,9 @@ function createCalculator() {
 }
 
 //////////////////////////////////////////////////////////
-// test calculator:
+// Unit tests Calculator
+
 {
- //   let c = createCalculator();
- //   c.addNumber(1); c.addOperator('add'); c.addNumber(3); console.log('test1+3=5:' + c.equal());
     let c = createCalculator();
     c.addNumber(1); c.addOperator('add'); console.log('test: 1,add == ' + c.equal());
 }
@@ -182,15 +198,17 @@ addListeners();
 updateDisplay();
 
 function handleKeyDown(key) {
+    console.log(key);
     if (!isNaN(key)) {c.addDigit(key);           updateDisplay()}
     else if (key == '.') {c.addPoint();          updateDisplay()}
     else if (key == '+') {c.addOperator('add');  updateDisplay()}
     else if (key == '-') {c.addOperator('sub');  updateDisplay()}
     else if (key == '*') {c.addOperator('mul');  updateDisplay()}
     else if (key == '/') {c.addOperator('div');  updateDisplay()}
+    else if (key == '%') {c.addOperator('per');  updateDisplay()}
     else if (key == 'Enter') {c.equal();         updateDisplay()}
     else if (key == 'Backspace') {c.undo();      updateDisplay()}
-    else if (key == 'c') {c.reset();             updateDisplay()}
+    else if (key == 'Escape') {c.reset();        updateDisplay()}
 }
 
 document.onkeydown = event => { 
