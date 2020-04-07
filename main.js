@@ -60,10 +60,11 @@ function handleKeyDown(key) {
 
 document.onkeydown = event => { 
     if(!event.key.startsWith('F')) // allow Fn shorcuts for Chrome dev environment.
-        event.preventDefault();  
+        event.preventDefault();
     handleKeyDown(event.key);
 }
 
-//  module.exports = {
-//    createCalculator
-// }
+let menu = document.getElementById('menu');
+let help = document.getElementById('help');
+menu.addEventListener('mouseenter', () => help.style.display = 'block');
+menu.addEventListener('mouseleave', () => help.style.display = 'none');
