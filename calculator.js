@@ -46,7 +46,7 @@ function createCalculator() {
     c.addNumber = (number) => {
         (c.currentPos() == 0) ? c.input[0] = number.toString() :
         c.input.push(number.toString())
-    };  // for unit testing purpose
+    }  // for unit testing purpose
 
     c.addPoint = () => { 
         if (c.isOperator(c.currentInput())) 
@@ -73,7 +73,7 @@ function createCalculator() {
 
     c.findOperatorByOp = (op) => c.operatorsFunc.find((elt) => elt.op == op);
 
-    const MAX_DECIMALS = 9;
+    const MAX_DECIMALS = 12;
     c.processWithOperator = (op) => {
         let operator = c.findOperatorByOp(op); // lookup for operators
 
@@ -81,6 +81,7 @@ function createCalculator() {
             const op1 = parseFloat(c.input[index - 1]);
             const op2 = parseFloat(c.input[index + 1]);
             c.input.splice(index - 1, 3, c.operate(operator.func, op1, op2));
+        }
     }
     c.equal = () => {
         if (c.validate()) {
