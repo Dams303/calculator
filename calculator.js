@@ -1,4 +1,4 @@
-function createCalculator() {
+createCalculator = function () {
     let c = {};
 
     c.add = (a, b) => a + b;
@@ -103,12 +103,12 @@ function createCalculator() {
         if (c.validate()) {
             c.feedHistory();
             //console.table(c.history);
-            console.table(c.input);
+            //console.table(c.input);
             c.operators.forEach(c.processWithOperator);
             c.input[0] = parseFloat( parseFloat(c.input[0]).toFixed(MAX_DECIMALS)).toString();
-            console.table(c.input);
+            //console.table(c.input);
         }
-        else {console.log('validation failed'); console.table(c.input);};
+        //else {console.log('validation failed'); console.table(c.input);};
         return c.input;
     }
     const HISTORY_SIZE = 10;
@@ -125,25 +125,6 @@ function createCalculator() {
 }
 
 //////////////////////////////////////////////////////////
-// Unit tests Calculator
-
-{
-    let c = createCalculator();
-    c.addNumber(1); c.addOperator('add'); console.log('test: 1,add == ' + c.equal());
-}
-{
-    let c = createCalculator();
-    c.addNumber(4); c.addOperator('add'); c.addNumber(2); c.addOperator('mul'); c.addNumber(3); console.log('test4+2*3=10:' + c.equal());
-}
-{
-    let c = createCalculator();
-    c.addNumber(2); c.addOperator('div'); c.addNumber(3); console.log('test max decimals: 2/3 = :' + c.equal());
-}
-{
-    let c = createCalculator();
-    c.addNumber(56); c.addOperator('mul'); c.addNumber(9.32); console.log('test: 56x9.32 = :' + c.equal());
-}
-//////////////////////////////////////////////////////////
 // ** Known bugs:
 
 // ** Improvments:
@@ -153,70 +134,8 @@ function createCalculator() {
 
 //////////////////////////////////////////////////////////
 
-function addListeners() {
-    let keys = document.getElementsByClassName('key');
-    for (key of keys) {
-        key.addEventListener('click', keyClicked);
-    }
+if (this.document == null) { // call export when exectued by node.js for unit tests. 
+  module.exports = {
+    createCalculator
+ }
 }
-
-function createNumKeys() {
-    let keyboard = document.getElementById('keyboard');
-    for (let i = 0; i < 10; ++i) {
-        let key = document.createElement('button');
-        key.dataset.num = i;
-        key.classList.add('key');
-        key.style.gridArea = 'n' + i;
-        key.textContent = i;
-        keyboard.appendChild(key);
-    }
-}
-
-function keyClicked(e) {
-    if ('num' in this.dataset)
-        c.addDigit(this.dataset.num);
-    else if ('op' in this.dataset)
-        c.addOperator(this.dataset.op);
-    else if ('action' in this.dataset)
-        c[this.dataset.action]()  // undo, equal, reset
-    else if ('sep' in this.dataset)
-        c.addPoint();
-
-    updateDisplay();
-}
-
-let mainOutput = document.getElementById('main-output');
-let secondaryOutput = document.getElementById('secondary-output');
-
-function updateDisplay() {
-    mainOutput.textContent = c.getDisplay();
-    secondaryOutput.textContent = 'Ans = ' + c.getHistory();
-}
-let c = createCalculator();
-createNumKeys();
-addListeners();
-updateDisplay();
-
-function handleKeyDown(key) {
-    console.log(key);
-    if (!isNaN(key)) {c.addDigit(key);           updateDisplay()}
-    else if (key == '.') {c.addPoint();          updateDisplay()}
-    else if (key == '+') {c.addOperator('add');  updateDisplay()}
-    else if (key == '-') {c.addOperator('sub');  updateDisplay()}
-    else if (key == '*') {c.addOperator('mul');  updateDisplay()}
-    else if (key == '/') {c.addOperator('div');  updateDisplay()}
-    else if (key == '%') {c.addOperator('per');  updateDisplay()}
-    else if (key == 'Enter') {c.equal();         updateDisplay()}
-    else if (key == 'Backspace') {c.undo();      updateDisplay()}
-    else if (key == 'Escape') {c.reset();        updateDisplay()}
-}
-
-document.onkeydown = event => { 
-    if(!event.key.startsWith('F')) // allow Fn shorcuts for Chrome dev environment.
-        event.preventDefault();  
-    handleKeyDown(event.key);
-}
-
-//  module.exports = {
-//    createCalculator
-// }
