@@ -27,7 +27,7 @@ body {
      /* background-color: rgba(219, 181, 55, 0.452); 
     background: linear-gradient(35deg, rgba(2,0,36,1) 0%, rgba(117,217,219,0.57522759103641454) 73%, rgba(219,249,255,1) 100%);
     /* background: rgb(131,58,180); */
-    /* background: radial-gradient(circle, rgba(131,58,180,0.7) 0%, rgba(253,29,29,0.7) 50%, rgba(252,176,69,0.7) 100%); */
+    background: radial-gradient(circle, rgba(131,58,180,0.2) 0%, rgba(253,29,29,0.2) 50%, rgba(252,176,69,0.2) 100%); 
 }
 
 #main-container {
@@ -227,12 +227,14 @@ kbd {
 }
 
 /**************** check button *****************/
-#ck-button {
-  background-image: url('./icon-keyboard.png');
+#top-menu {
+  display: flex;
+}
+
+.ck-button {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  margin-left: 30px;
   width: 70px;
   height: 22px;
   box-sizing: border-box;
@@ -244,27 +246,39 @@ kbd {
   border-bottom-right-radius: 4px;
 }
 
-#ck-button:hover {
-  /* border-color: #D0D0D0; */
+#help-btn {
+  justify-content: flex-start;
+  background-image: url('./icon-keyboard.png');
+  margin-left: 30px; 
+  width: 80px; 
+}
+
+#history-btn {
+  justify-content: flex-end;
+  background-image: url('./icon-history.png');
+  margin-left: auto;
+  margin-right: 30px;
+  width: 80px; 
+}
+
+.ck-button:hover {
   border-color: #DCE0E6;
 }
 
 .ck-btn-checked {
-  /* background-color: #D0D0D0; */
   border-color: #DCE0E6;
-  /* background-color: #D0D0D0; */
   background-color: #DCE0E6;
 }
 
-#ck-button label {
+.ck-button label {
     float:left;
     width:100%;
     height:100%;
 }
 
-#ck-button label input {
+.ck-button label input {
     position:absolute;
     top:-20px;
 }
- 
+
 

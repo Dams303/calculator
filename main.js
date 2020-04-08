@@ -64,12 +64,23 @@ document.onkeydown = event => {
     handleKeyDown(event.key);
 }
 
-let menu = document.getElementById('ck-button');
-//let help = document.getElementById('help');
 
-menu.addEventListener('change', (e) => {
+
+let helpBtn = document.getElementById('help-btn');
+let help = document.getElementById('help');
+
+helpBtn.addEventListener('change', e => {
     console.log(e);
-    e.target.checked ? menu.classList.add('ck-btn-checked') : menu.classList.remove('ck-btn-checked');
+    e.target.checked ? helpBtn.classList.add('ck-btn-checked') : helpBtn.classList.remove('ck-btn-checked');
     help.style.display = e.target.checked ? 'block' : 'none';
 });
+
+let historyBtn = document.getElementById('history-btn');
+let history = document.getElementById('history');
+
+historyBtn.addEventListener('change', e => {
+    e.target.checked ? historyBtn.classList.add('ck-btn-checked') : historyBtn.classList.remove('ck-btn-checked');
+    history.style.display = e.target.checked ? 'block' : 'none';
+});
+
 
