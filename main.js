@@ -64,7 +64,12 @@ document.onkeydown = event => {
     handleKeyDown(event.key);
 }
 
-let menu = document.getElementById('menu');
-let help = document.getElementById('help');
-menu.addEventListener('mouseenter', () => help.style.display = 'block');
-menu.addEventListener('mouseleave', () => help.style.display = 'none');
+let menu = document.getElementById('ck-button');
+//let help = document.getElementById('help');
+
+menu.addEventListener('change', (e) => {
+    console.log(e);
+    e.target.checked ? menu.classList.add('ck-btn-checked') : menu.classList.remove('ck-btn-checked');
+    help.style.display = e.target.checked ? 'block' : 'none';
+});
+

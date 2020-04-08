@@ -69,7 +69,7 @@ createCalculator = function () {
     c.addOperator = (op) => {
         // add cell when: 4%, 4%%, 4.%, 4x; %x;
         // replace cell when: x% => when current is binary and op is unary
-        if (c.isCurrentOperator() && c.isBinaryOperator(c.currentInput()) && c.isUnaryOperator(op))
+        if (c.isCurrentOperator() && c.isBinaryOperator(c.currentInput()) /*&& c.isUnaryOperator(op)*/)
             c.input[c.currentPos()] = op;
         else 
             c.input[c.currentPos() + 1] = op;
@@ -102,7 +102,7 @@ createCalculator = function () {
     c.equal = () => {
         if (c.validate()) {
             c.feedHistory();
-            //console.table(c.history);
+            console.table(c.history);
             //console.table(c.input);
             c.operators.forEach(c.processWithOperator);
             c.input[0] = parseFloat( parseFloat(c.input[0]).toFixed(MAX_DECIMALS)).toString();

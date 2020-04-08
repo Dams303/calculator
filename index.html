@@ -1,9 +1,16 @@
 <head>
    <title>Calculator</title>
    <link rel="stylesheet" href="style.css">
+   <meta charset="utf-8">
 </head>
 <body>
+<div id="background_opacity"></div>    
 <div id="main-container">
+    <div id="ck-button">
+        <label>
+            <input type="checkbox" value="1" id="checkbox-help"><span></span>
+         </label>    
+    </div>
     <div id=screen>
         <div id="secondary-output"></div>
         <div id="main-output"></div>
@@ -20,23 +27,45 @@
         <button data-sep="" class="key" style="grid-area: sep">.</button>
         
     </div>
-        <div id="menu">?<div>
-    <div id="credits">designed by Dams303</div>
+        <!-- <div id="menu"> -->
+        <div id="credits">designed by Dams303</div>
 </div>
-<div id="help">
+<div id="help" class="help-anim">
     <!-- <div> -->
-        <h3 id="help-title">Keyobard help</h3>
-        <div id="help-container">
-            <div>Undo: <kbd>Backspace</kbd></div>
-            <div>=: <kbd>Enter</kbd></div>
-            <div>Erase: <kbd>Esc</kbd></div>
-            <div>Add<kbd>+</kbd></div>
-            <div>Minus<kbd>-</kbd></div>
-            <div>Multiply<kbd>*</kbd></div>
-            <div>Divide<kbd>/</kbd></div>
-            <div>Percentage<kbd>%</kbd></div>
-            <div>Equal<kbd>%</kbd></div>
-        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Keyboard Shortcuts</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Add</td> <td><kbd>+</kbd></td>
+            </tr>
+            <tr>
+                <td>substract</td> <td><kbd>-</kbd></td>
+            </tr>
+            <tr>
+                <td>Mulitply</td> <td><kbd>×</kbd></td>
+            </tr>
+            <tr>
+                <td>Divide</td> <td><kbd>÷</kbd></td>
+            </tr>
+            <tr>
+                <td>Percentage</td> <td><kbd>%</kbd></td>
+            </tr>
+            <tr>
+                <td>=</td> <td><kbd>Enter</kbd></td>
+            </tr>
+            <tr>
+                <td>Undo</td> <td><kbd>Backspace</kbd></td>
+            </tr>
+            <tr>
+                <td>Reset</td> <td><kbd>Esc</kbd></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>    
     <!-- </div>   -->
 </div>
 <script src="calculator.js"></script>
