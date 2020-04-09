@@ -37,7 +37,7 @@ let secondaryOutput = document.getElementById('secondary-output');
 
 function updateDisplay() {
     mainOutput.textContent = c.getDisplay();
-    secondaryOutput.textContent = c.getLastHistoryEntry();
+    secondaryOutput.textContent = c.getLastResult();
 
     updateHistoryPanel();
 }
@@ -48,7 +48,6 @@ updateDisplay();
 
 // Keyboard shortcuts
 function handleKeyDown(key) {
-    console.log(key);
     if (!isNaN(key)) {c.addDigit(key);           updateDisplay()}
     else if (key == '.') {c.addPoint();          updateDisplay()}
     else if (key == '+') {c.addOperator('add');  updateDisplay()}
@@ -72,7 +71,6 @@ let helpBtn = document.getElementById('help-btn');
 let help = document.getElementById('help');
 
 helpBtn.addEventListener('change', e => {
-    console.log(e);
     e.target.checked ? helpBtn.classList.add('ck-btn-checked') : helpBtn.classList.remove('ck-btn-checked');
     help.style.display = e.target.checked ? 'block' : 'none';
 });
@@ -97,7 +95,7 @@ function updateHistoryPanel() {
         if (entry == null) 
             entry = historyPanel.appendChild(document.createElement('div'));
         entry.textContent = c.generateDisplay(input); 
-    }   
+    }
 );}
 
 

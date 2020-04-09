@@ -44,10 +44,11 @@ createCalculator = function () {
     c.isCurrentOperator = () => c.isOperator(c.currentInput());
     
     c.cleanInput = (keepResult = false) => {
-        if (c.input.findIndex (elt => elt == ' = ') != -1)
+        if (c.input.findIndex (elt => elt == EQUAL) != -1)
           keepResult ? c.input.splice(0, c.input.length - 1) : c.input = ['0'];
     }
 
+    
     // interface methods
     c.addDigit = (digit) => {
         c.cleanInput();
@@ -86,7 +87,8 @@ createCalculator = function () {
             c.input[c.currentPos() + 1] = op;
     }
 
-    c.undo = () => {        
+    c.undo = () => { 
+        c.cleanInput(true);
         if (c.isCurrentOperator() || c.currentInput().length <= 1 || c.currentInput() == 'Infinity') c.input.pop();
         else
             c.input[c.currentPos()] = c.currentInput().substring(0, c.currentInput().length - 1);
@@ -138,11 +140,11 @@ createCalculator = function () {
     }
     const HISTORY_SIZE = 10;
     c.feedHistory = () => {
-        if(c.history.length == HISTORY_SIZE) c.history.shift(); 
+        if(c.history.length == HISTORY_SIZE) c.history.shift();
         c.history.push([...c.input]);
     }
 
-    c.getLastHistoryEntry = () => {
+    c.getLastResult = () => {
         let res = '';
         if (c.input.find(elt => elt == EQUAL)) // display just after equal operation.
             res = c.generateDisplay(c.input.slice(0, c.input.length-1));

@@ -2,44 +2,26 @@ body {
     display: flex;
     align-items: center;
     background-image: url("./images/test22.jpg");
-    /* background-image: url("./images/test22.jpg");   */
     background-attachment: fixed;
     background-size: cover;
     background-position: center center;
-     /* background-image: url("./stock.jpg");   */
-    /*background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,217,219,0.47522759103641454) 73%, rgba(219,249,255,1) 100%); */
-    /* background-color: rgb(245, 244, 244); */
-    /* background-color: black; */
-    /* filter: grayscale(1); */
 }
 
 #background_opacity {
     position: fixed;
-    /* background-color: rgba(255, 226, 163, 0.5); */
-     /*background-color: rgba(134, 134, 134, 0.5); */
-     /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,217,219,0.47522759103641454) 73%, rgba(219,249,255,1) 100%); */
     z-index: -10;
     top: 0; left: 0; right: 0; bottom: 0;
-     /* background-color: rgba(255, 255, 255, 0.7);   */
-   /* background-color: rgba(70, 65, 116, 0.2); */
-    /* background-color: rgba(100, 76, 61, 0.9); */
-    /* background-color: rgba(255, 255, 255, 0.8); */
-     /* background-color: rgba(219, 181, 55, 0.452); 
-    background: linear-gradient(35deg, rgba(2,0,36,1) 0%, rgba(117,217,219,0.57522759103641454) 73%, rgba(219,249,255,1) 100%);
-    /* background: rgb(131,58,180); */
     background: radial-gradient(circle, rgba(131,58,180,0.2) 0%, rgba(253,29,29,0.2) 50%, rgba(252,176,69,0.2) 100%); 
 }
 
 #main-container {
   background-color: rgba(255, 255, 255, 0.636);
-  /* background-color: rgba(109, 0, 0, 1); */
   margin: auto;
   width: 400px;
   height: 520px;
   border-radius: 4px;
   border-style: none; 
   border-width: 1px;
-  /* border-color:rgb(216, 216, 216); */
   border-color:rgb(32, 31, 31);
   box-shadow: 1px 1px 11px 1px rgba(56, 56, 56, 0.171);
 }
@@ -75,7 +57,6 @@ body {
 }
 
 #main-output {
-  /* filter: contrast(0.3); */
   padding-right: 12px;
   padding-left: 12px; 
   height: 60%; 
@@ -102,7 +83,6 @@ body {
 }
 
 .key { 
-  /* background-color: rgba(180, 180, 180, 0.493); */
   background-color: rgba(220, 224, 230, 0.548);
   border-radius: 1px;
   text-align: center;
@@ -110,9 +90,7 @@ body {
   font-size: 20px;
   border-style: none;
   border-color: rgb(54, 54, 54);
-  color: rgba(160, 21, 21, 0.642);
   color:rgb(52, 70, 71);
-
 }
 
 .key:active{
@@ -124,15 +102,12 @@ body {
 }
 
 .operator-key {
-    /* background-color: rgba(75, 15, 15, 0.493); */
 }
 
 .ac-key {
-    /* background-color: rgb(211, 50, 1); */
 }
    
 .c-key {
-    /* background-color: white; */
 }
 
 .key:hover {
@@ -151,18 +126,14 @@ body {
 #credits {
   margin: auto;
   margin-top: 60px;
-  /* margin-left: 180px; */
   text-align: center;
   font-size: 9.5px;
   font-family: system-ui;
   color: rgb(97, 97, 97);
-  /* opacity: 0.2; */
   opacity: 0.3;
-  /* border-top: solid 1px rgba(128, 128, 128, 0.438); */
 }
 
 #menu {
-  /* display: none; */
   border-style: solid;
   border-width: 1px;
   height: 
@@ -172,10 +143,9 @@ body {
 #help {
   position: fixed;
   left: -5px;
-  top: 50%;  /*vertical center*/
-  transform: translate(0%, -50%); /*vertical center*/
-  background-color: rgba(255, 255, 255, 0.8 );
-  background-color: rgba(255, 255, 255, 0.636);
+  top: 50%;
+  transform: translate(0%, -50%);
+  background-color: rgba(255, 255, 255, 0.236);
   width : 300px;
   height: 400px;
   display: none;
@@ -194,6 +164,18 @@ body {
   0%   { left:-300px; }
   100% { left:-5px; }
 }
+
+.history-anim {
+  animation-name: history-appear;
+  animation-duration: 0.4s;
+}
+
+@keyframes history-appear {
+  0%   { right:-300px; }
+  100% { right:-5px; }
+}
+
+
 
 table {
   margin: auto;
@@ -231,10 +213,9 @@ kbd {
 /**************** history button *****************/
 #history {
   position: fixed;
-  right: 0%;
-  top: 50%;  /*vertical center*/
-  transform: translate(0%, -50%); /*vertical center*/
-  /* background-color: rgba(255, 255, 255, 0.8 ); */
+  right: -5px;
+  top: 50%;
+  transform: translate(0%, -50%);
   background-color: rgba(255, 255, 255, 0.236);
   width : 300px;
   height: auto;
@@ -289,6 +270,7 @@ kbd {
 .ck-btn-checked {
   border-color: #DCE0E6;
   background-color: #DCE0E6;
+  filter: constrat(1000%);
 }
 
 .ck-button label {
@@ -304,6 +286,5 @@ kbd {
 
 /* History panel */
 #history div {
-  /* text-align: center; */
   padding : 10px;
 }
