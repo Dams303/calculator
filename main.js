@@ -89,11 +89,10 @@ helpBtn.addEventListener('change', e => {
     help.style.display = e.target.checked ? 'block' : 'none';
 });
 
-// TODO: reverse history display: 15min
 // store and display equal part: 1h
 // -> history contains array of inputs before computation: ['3', 'add', '2']
-// -> ans display displays input spliced ['5']
-// -> we want history to be like: ['3', 'add', '2', '-', '5']
+// -> ans display displays input spliced ['5'] or 
+// -> we want history to be like: ['3', 'add', '2', '=', '5']
 // -> so we need to add in history : input + the result 
 // -> Ans new behaviour: 
 //    -> history empty display Ans = 0
@@ -101,6 +100,10 @@ helpBtn.addEventListener('change', e => {
 //    -> as soon as an other digit is pressed after equal should display Ans = '5'  (the result) of the last hsitory entry
 //    -> Ans should then display: the last history entry without the result ? 
 //    
+//  Alternate solution: 
+//  Result generate ['3', 'add', '2', '=', '5'];
+//  Then after add digit: we clean the input.
+//  so main display  
 // 2nd phase: allow selection of history items and make replace feature: 2h
 // 
 

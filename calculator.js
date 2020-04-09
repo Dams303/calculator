@@ -19,6 +19,8 @@ createCalculator = function () {
     c.isBinaryOperator = op => c.isOperator(op) && c.findOperatorByOp(op).type == 'binary';
 
     c.validate = () => {
+        if (c.input.find(elt => elt == EQUAL)) return false; // we don't process something just processed 
+
         let checkOperandsValid = (cell, index) => {
             if (c.isOperator(cell))
             {    
@@ -41,8 +43,14 @@ createCalculator = function () {
     c.currentInput = () => c.input[c.currentPos()];
     c.isCurrentOperator = () => c.isOperator(c.currentInput());
     
+    c.cleanInput = (keepResult = false) => {
+        if (c.input.findIndex (elt => elt == ' = ') != -1)
+          keepResult ? c.input.splice(0, c.input.length - 1) : c.input = ['0'];
+    }
+
     // interface methods
     c.addDigit = (digit) => {
+        c.cleanInput();
         if (c.isUnaryOperator(c.currentInput())) return;
         if (c.isCurrentOperator())
             c.input[c.currentPos() + 1] = digit;
@@ -55,11 +63,13 @@ createCalculator = function () {
         }
     }
     c.addNumber = (number) => {
+        c.cleanInput();
         (c.currentPos() == 0) ? c.input[0] = number.toString() :
         c.input.push(number.toString())
     }  // for unit testing purpose
 
     c.addPoint = () => { 
+        c.cleanInput();
         if (c.isOperator(c.currentInput())) 
             c.input[c.currentPos()+1] = '0.';
         else 
@@ -69,13 +79,14 @@ createCalculator = function () {
     c.addOperator = (op) => {
         // add cell when: 4%, 4%%, 4.%, 4x; %x;
         // replace cell when: x% => when current is binary and op is unary
+        c.cleanInput(true);
         if (c.isCurrentOperator() && c.isBinaryOperator(c.currentInput()) /*&& c.isUnaryOperator(op)*/)
             c.input[c.currentPos()] = op;
         else 
             c.input[c.currentPos() + 1] = op;
     }
 
-    c.undo = () => {
+    c.undo = () => {        
         if (c.isCurrentOperator() || c.currentInput().length <= 1 || c.currentInput() == 'Infinity') c.input.pop();
         else
             c.input[c.currentPos()] = c.currentInput().substring(0, c.currentInput().length - 1);
@@ -90,6 +101,17 @@ createCalculator = function () {
     c.findOperatorByOp = (op) => c.operatorsFunc.find((elt) => elt.op == op);
 
     const MAX_DECIMALS = 9;
+    const EQUAL = ' = ';
+
+    c.operateInput = () => {
+        let leftPart = [...c.input]; // save left part
+        c.operators.forEach(c.processWithOperator);
+        c.input[0] = parseFloat( parseFloat(c.input[0]).toFixed(MAX_DECIMALS)).toString();
+        leftPart.push(EQUAL);
+        leftPart.push(c.input[0]);
+        c.input = leftPart;
+    }    
+
     c.processWithOperator = (op) => {
         let operator = c.findOperatorByOp(op); // lookup for operators
 
@@ -101,12 +123,10 @@ createCalculator = function () {
     }
     c.equal = () => {
         if (c.validate()) {
+            c.operateInput();
             c.feedHistory();
+            
             console.table(c.history);
-            //console.table(c.input);
-            c.operators.forEach(c.processWithOperator);
-            c.input[0] = parseFloat( parseFloat(c.input[0]).toFixed(MAX_DECIMALS)).toString();
-            //console.table(c.input);
         }
         //else {console.log('validation failed'); console.table(c.input);};
         return c.input;
@@ -128,8 +148,6 @@ createCalculator = function () {
 // ** Known bugs:
 
 // ** Improvments:
-// ans and history feature: 70% done: When to display it : 
-// after equal if digit then erase the previous cell: 
 // allow minus sign after other operators.
 
 //////////////////////////////////////////////////////////
