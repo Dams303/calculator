@@ -91,7 +91,7 @@ let historyPanel = document.getElementById('history');
 function updateHistoryPanel() {
     
     c.history.forEach((input, index) => {
-        let entry = historyPanel.childNodes[index];
+        let entry = historyPanel.children[index];
         if (entry == null) 
             entry = historyPanel.appendChild(document.createElement('div'));
         entry.textContent = c.generateDisplay(input); 
