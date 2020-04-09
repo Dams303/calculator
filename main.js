@@ -37,26 +37,14 @@ let secondaryOutput = document.getElementById('secondary-output');
 
 function updateDisplay() {
     mainOutput.textContent = c.getDisplay();
-    secondaryOutput.textContent = 'Ans = ' + c.getLastHistoryEntry();
+    secondaryOutput.textContent = c.getLastHistoryEntry();
+
     updateHistoryPanel();
 }
 let c = createCalculator();
 createNumKeys();
 addListeners();
 updateDisplay();
-
-
-let historyPanel = document.getElementById('history');
-
-function updateHistoryPanel() {
-    
-    c.history.forEach((input, index) => {
-        let entry = historyPanel.childNodes[index];
-        if (entry == null) 
-            entry = historyPanel.appendChild(document.createElement('div'));
-        entry.textContent = c.generateDisplay(input); 
-    }   
-);}
 
 // Keyboard shortcuts
 function handleKeyDown(key) {
@@ -89,30 +77,27 @@ helpBtn.addEventListener('change', e => {
     help.style.display = e.target.checked ? 'block' : 'none';
 });
 
-// store and display equal part: 1h
-// -> history contains array of inputs before computation: ['3', 'add', '2']
-// -> ans display displays input spliced ['5'] or 
-// -> we want history to be like: ['3', 'add', '2', '=', '5']
-// -> so we need to add in history : input + the result 
-// -> Ans new behaviour: 
-//    -> history empty display Ans = 0
-//    -> after equal shoud display history value '=' like '3+2' 
-//    -> as soon as an other digit is pressed after equal should display Ans = '5'  (the result) of the last hsitory entry
-//    -> Ans should then display: the last history entry without the result ? 
-//    
-//  Alternate solution: 
-//  Result generate ['3', 'add', '2', '=', '5'];
-//  Then after add digit: we clean the input.
-//  so main display  
-// 2nd phase: allow selection of history items and make replace feature: 2h
-// 
 
-// history panel
+// history button
 let historyBtn = document.getElementById('history-btn');
 
 historyBtn.addEventListener('change', e => {
     e.target.checked ? historyBtn.classList.add('ck-btn-checked') : historyBtn.classList.remove('ck-btn-checked');
     historyPanel.style.display = e.target.checked ? 'block' : 'none';
 });
+
+
+// history panel
+let historyPanel = document.getElementById('history');
+
+function updateHistoryPanel() {
+    
+    c.history.forEach((input, index) => {
+        let entry = historyPanel.childNodes[index];
+        if (entry == null) 
+            entry = historyPanel.appendChild(document.createElement('div'));
+        entry.textContent = c.generateDisplay(input); 
+    }   
+);}
 
 

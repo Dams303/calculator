@@ -96,7 +96,12 @@ createCalculator = function () {
     c.reset = () => c.input = ['0'];
 
     c.generateDisplay = (input) => input.reduce((out, cell) => out += c.isOperator(cell) ? c.findOperatorByOp(cell).out : cell, '');
-    c.getDisplay = () => c.generateDisplay(c.input);
+    c.getDisplay = () => {
+        if (c.input.find(elt => elt == EQUAL))
+            return c.generateDisplay(c.input.slice(-1));
+        else 
+            return c.generateDisplay(c.input);
+    }
 
     c.findOperatorByOp = (op) => c.operatorsFunc.find((elt) => elt.op == op);
 
@@ -138,8 +143,13 @@ createCalculator = function () {
     }
 
     c.getLastHistoryEntry = () => {
-        let input = c.history[c.history.length-1];
-        return input ? c.generateDisplay(input) : '';
+        let res = '';
+        if (c.input.find(elt => elt == EQUAL)) // display just after equal operation.
+            res = c.generateDisplay(c.input.slice(0, c.input.length-1));
+        else if (c.history.length)  
+            res = 'Ans = ' + c.generateDisplay(c.history[c.history.length-1].slice(-1));
+        
+        return res;
     }
     return c;
 }
