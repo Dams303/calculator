@@ -117,7 +117,7 @@ createCalculator = function () {
         c.history.push([...c.input]);
     }
 
-    c.getHistory = () => {
+    c.getLastHistoryEntry = () => {
         let input = c.history[c.history.length-1];
         return input ? c.generateDisplay(input) : '';
     }
