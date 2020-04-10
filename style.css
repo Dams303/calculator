@@ -1,10 +1,12 @@
 body {
+    height: 100%;
     display: flex;
     align-items: center;
     background-image: url("./images/test22.jpg");
     background-attachment: fixed;
     background-size: cover;
     background-position: center center;
+    font-family: system-ui;
 }
 
 #background_opacity {
@@ -35,7 +37,6 @@ body {
   margin-bottom: 20px;
   color:rgb(236, 104, 15);
   color:rgb(52, 70, 71);
-  font-family: system-ui;
 
   border-radius: 1px;
   text-align: right;
@@ -128,7 +129,6 @@ body {
   margin-top: 60px;
   text-align: center;
   font-size: 9.5px;
-  font-family: system-ui;
   color: rgb(97, 97, 97);
   opacity: 0.3;
 }
@@ -180,7 +180,6 @@ body {
 table {
   margin: auto;
   margin-top: 10px;
-  font-family: system-ui;
 }
 
 table th {
@@ -224,7 +223,6 @@ kbd {
   border-style: none; 
   border-width: 1px;
   filter: contrast(1.75);
-  font-family: system-ui;
   color: grey;
 }
 
