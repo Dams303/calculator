@@ -8,27 +8,32 @@ body {
     background-position: center center;
     font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     --main-text-color: rgb(52, 70, 71);
+    --selected-item-color: #f9fcff;
 }
 
 #background-opacity {
     position: fixed;
     z-index: -10;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(110, 150, 202, 0.212);
+    
     background: radial-gradient(circle, rgba(131,58,180,0.2) 0%, rgba(253,29,29,0.2) 50%, rgba(252,176,69,0.2) 100%); 
     
     /* green blue */
-    background-image: linear-gradient(to left bottom, #051937c4, #004d7ab0, #008793bd, #00bf73af, #a6eb12cb);
+    /* background-image: linear-gradient(to left bottom, #051937c4, #004d7ab0, #008793bd, #00bf73af, #a6eb12cb); */
+
 
     /* plain color */
     /* background-image: linear-gradient(to right top, #d16ba5, #cf6fb1, #cb73be, #c678cb, #be7ed7, #d67dd2, #ec7dcb, #ff7ec2, #ff8997, #ffa96b, #ffd34e, #dafb5f); */
 
     /* Blue heaven */
-    /* background: linear-gradient(35deg, rgba(29,87,196,0.819765406162465) 0%, rgba(182,242,255,0.8393732492997199) 20%, rgba(228,228,228,0.788953081232493) 100%); */
+    /* background: linear-gradient(35deg, rgba(29,87,196,0.819765406162465) 0%, rgba(182,242,255,0.8393732492997199) 20%, rgba(221, 187, 187, 0.789) 100%); */
   }
 
 #main-container {
   background-color: rgba(255, 255, 255, 0.636);
+  background: linear-gradient(0deg, rgba(212, 212, 212, 0.636) 0%, rgba(255, 255, 255, 0.436) 50%);
+  background-color: rgba(120, 211, 112, 0.836);
+  background-color: rgba(230, 220, 227, 0.636);
   margin: auto;
   width: 400px;
   height: 520px;
@@ -47,13 +52,9 @@ body {
   margin-top: 20px;
   margin-bottom: 20px;
   color: var(--main-text-color);
-
   border-radius: 1px;
   text-align: right;
-
   text-overflow: hidden;
-
-  /* Required for text-overflow to do anything */
   white-space: nowrap;
   overflow: hidden;
 }
@@ -94,7 +95,7 @@ body {
 }
 
 .key { 
-  background-color: rgba(220, 224, 230, 0.548);
+  background-color: rgba(220, 224, 230, 0.0);
   border-radius: 1px;
   text-align: center;
   line-height: 38px;
@@ -102,15 +103,10 @@ body {
   border-style: none;
   border-color: rgb(54, 54, 54);
   color: var(--main-text-color);
-  /* color:rgb(52, 70, 71); */
 }
 
 .key:active{
    background-color: rgba(233, 233, 233, 0.901);
-}
-
-.key:hover {
-  color: black;
 }
 
 .operator-key {
@@ -123,7 +119,8 @@ body {
 }
 
 .key:hover {
-  filter: brightness(1.02);
+  color: black;
+  background-color: rgba(255, 255, 255, 0.11);
 }
 
 .key:focus {
@@ -131,8 +128,7 @@ body {
   }
 
 .key:active {
-  background-color: greenyellow;   
-  background-color: #f0f0f0;
+  background-color: rgba(255, 255, 255, 0.141);
 }
 
 #credits {
@@ -144,23 +140,19 @@ body {
   opacity: 0.3;
 }
 
-#menu {
-  border-style: solid;
-  border-width: 1px;
-  height: 
-}
-
-/**************** help button *****************/
+/**************** help panel *****************/
 #help {
   position: fixed;
-  left: -5px;
+  left: 0px;
   top: 50%;
   transform: translate(0%, -50%);
   background-color: rgba(255, 255, 255, 0.236);
+  background-color: rgba(255, 255, 255, 0.036);
   width : 300px;
-  height: 430px;
+  height: 460px;
   display: none;
-  border-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   border-style: none;
   border-width: 1px;
   filter: contrast(1.75);
@@ -174,17 +166,7 @@ body {
 
 @keyframes help-appear {
   0%   { left:-300px; }
-  100% { left:-5px; }
-}
-
-.history-anim {
-  animation-name: history-appear;
-  animation-duration: 0.4s;
-}
-
-@keyframes history-appear {
-  0%   { right:-300px; }
-  100% { right:-5px; }
+  100% { left: 0px; }
 }
 
 table {
@@ -210,9 +192,8 @@ kbd {
   color: grey; 
   color: var(--main-text-color);
   font-size: 12px;
-  border-style: solid;
+  border-style: none;
   border-width: 1px;
-  border-color: var(--main-text-color);
   border-radius: 7px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -220,21 +201,54 @@ kbd {
   padding-right: 8px;
 }
 
-/**************** history button *****************/
+/**************** history panel *****************/
 #history {
   position: fixed;
-  right: -5px;
+  right: -0px;
   top: 50%;
   transform: translate(0%, -50%);
   background-color: rgba(255, 255, 255, 0.236);
   width : 300px;
   height: auto;
   display: none;
-  border-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
   border-style: none; 
   border-width: 1px;
   filter: contrast(1.75);
   color: grey;
+}
+
+.history-anim {
+  animation-name: history-appear;
+  animation-duration: 0.4s;
+}
+
+@keyframes history-appear {
+  0%   { right:-300px; }
+  100% { right: 0px; }
+}
+
+#history-header {
+  width: 100%;
+  height: 30px;
+}
+
+#history-clear-btn {
+  background-image: url('./images/icon-trash.png');
+  filter: contrast(0.4);
+  background-size: 20px 18px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 20px; 
+  width: 20px; 
+  padding-left: 31px;
+  padding-top: 12px;
+}
+
+#history-entries div {
+  padding : 10px;
+  display: flex;
 }
 
 #history span {
@@ -253,9 +267,10 @@ kbd {
   border-radius: 4px;
   border:1px solid rgba(208, 208, 208, 0.0);
   background-color: silver;
+  background-color: var(--selected-item-color);
 }
 
-/**************** check button *****************/
+/**************** top menu button *****************/
 #top-menu {
   display: flex;
 }
@@ -283,38 +298,17 @@ kbd {
 
 #history-btn {
   background-image: url('./images/icon-history.png');
-  margin-left: 2px;
+  margin-left: 4px;
   width: 40px; 
 }
 
 .ck-button:hover {
   border-color: #DCE0E6;
+  border-color: var(--selected-item-color);
 }
 
 .ck-btn-checked {
   border-color: #DCE0E6;
   background-color: #DCE0E6;
-  filter: constrat(1000%);
-}
-
-/* History panel */
-#history-header {
-  width: 100%;
-  height: 30px;
-}
-
-#history-clear-btn {
-  background-image: url('./images/icon-trash.png');
-  filter: contrast(0.4);
-  background-size: 20px 18px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  height: 20px; 
-  width: 20px; 
-  padding-left: 31px;
-  padding-top: 12px;
-}
-
-#history-entries div{
-  padding : 10px;
+  background-color: var(--selected-item-color);
 }

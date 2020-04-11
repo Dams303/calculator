@@ -59,7 +59,8 @@ function handleKeyDown(key) {
     else if (key == 'Backspace') {c.undo();      updateDisplay()}
     else if (key == 'Escape') {c.reset();        updateDisplay()}
     else if (key == 'h') {historyBtn.click()}   
-    else if (key == 'k') {helpBtn.click()}   
+    else if (key == 'H') {c.clearHistory(); updateDisplay()}   
+    else if (key == 'q') {helpBtn.click()}   
 }
 
 document.onkeydown = event => { 
@@ -68,7 +69,7 @@ document.onkeydown = event => {
     handleKeyDown(event.key);
 }
 
-// help button & panel
+// help button & panel logic
 let helpBtn = document.getElementById('help-btn');
 let help = document.getElementById('help');
 
@@ -125,7 +126,7 @@ function updateHistoryPanel() {
     }
 }
 
-
+// update calculator from history logic
 let handleHistoryPanelClicked = (e) => {
     
     if (e.target.classList.contains('history-expression')) {
@@ -141,10 +142,9 @@ let handleHistoryPanelClicked = (e) => {
         updateDisplay();
     }
 }
-
 historyPanel.addEventListener('click', handleHistoryPanelClicked);
 
-
+// clear history button logic
 let clearHistoryBtn = document.getElementById('history-clear-btn'); 
 
 clearHistoryBtn.addEventListener('click', e => {
