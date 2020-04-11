@@ -141,6 +141,7 @@ createCalculator = function () {
     const HISTORY_SIZE = 10;
     c.feedHistory = () => {
         if(c.history.length == HISTORY_SIZE) c.history.shift();
+    
         c.history.push([...c.input]);
     }
 
@@ -161,7 +162,6 @@ createCalculator = function () {
 
 // ** Improvments:
 // allow minus sign after other operators.
-
 //////////////////////////////////////////////////////////
 
 if (this.document == null) { // call export when exectued by node.js for unit tests. 

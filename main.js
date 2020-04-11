@@ -58,6 +58,8 @@ function handleKeyDown(key) {
     else if (key == 'Enter') {c.equal();         updateDisplay()}
     else if (key == 'Backspace') {c.undo();      updateDisplay()}
     else if (key == 'Escape') {c.reset();        updateDisplay()}
+    else if (key == 'h') {historyBtn.click()}   
+    else if (key == 'k') {helpBtn.click()}   
 }
 
 document.onkeydown = event => { 
@@ -66,36 +68,74 @@ document.onkeydown = event => {
     handleKeyDown(event.key);
 }
 
-// help panel
+// help button & panel
 let helpBtn = document.getElementById('help-btn');
 let help = document.getElementById('help');
 
-helpBtn.addEventListener('change', e => {
-    e.target.checked ? helpBtn.classList.add('ck-btn-checked') : helpBtn.classList.remove('ck-btn-checked');
-    help.style.display = e.target.checked ? 'block' : 'none';
+helpBtn.addEventListener('click', e => {
+    helpBtn.classList.toggle('ck-btn-checked');
+    help.style.display = helpBtn.classList.contains('ck-btn-checked')? 'block' : 'none';
 });
-
 
 // history button
 let historyBtn = document.getElementById('history-btn');
+console.log(historyBtn);
 
-historyBtn.addEventListener('change', e => {
-    e.target.checked ? historyBtn.classList.add('ck-btn-checked') : historyBtn.classList.remove('ck-btn-checked');
-    historyPanel.style.display = e.target.checked ? 'block' : 'none';
+historyBtn.addEventListener('click', e => {
+    historyBtn.classList.toggle('ck-btn-checked');
+    historyPanel.style.display = historyBtn.classList.contains('ck-btn-checked')? 'block' : 'none';
 });
 
 
 // history panel
 let historyPanel = document.getElementById('history');
 
+function createHistoryEntry(index) {
+    let row = historyPanel.appendChild(document.createElement('div'));
+    row.setAttribute('id', 'hist' + index);
+    row.dataset.num = index;
+
+    let left = row.appendChild(document.createElement('span'));
+    left.dataset.type = 'left';
+    left.classList.add('history-expression');
+
+    row.appendChild(document.createTextNode('='));
+
+    let right = row.appendChild(document.createElement('span'));
+    right.dataset.type = 'right';
+    right.classList.add('history-expression');
+
+    return row;
+}
+
 function updateHistoryPanel() {
-    
+
     c.history.forEach((input, index) => {
-        let entry = historyPanel.children[index];
-        if (entry == null) 
-            entry = historyPanel.appendChild(document.createElement('div'));
-        entry.textContent = c.generateDisplay(input); 
+        let row = document.getElementById('hist' + index);
+        
+        if (row == null)
+            row = createHistoryEntry(index);
+        
+        row.children[0].textContent = c.generateDisplay(input.slice(0, input.length-2));
+        row.children[1].textContent = c.generateDisplay(input.slice(-1));
     }
 );}
 
 
+let handleHistoryPanelClicked = (e) => {
+    
+    if (e.target.classList.contains('history-expression')) {
+        
+        const historyIndex = e.target.parentElement.dataset.num;
+        let historyInput = c.history[historyIndex];
+
+        if (e.target.dataset.type == 'left')
+            c.input = [...historyInput.slice(0, historyInput.length-2)]; 
+        else
+            c.input = [...historyInput.slice(-1)];
+        
+        updateDisplay();
+    }
+}
+
+historyPanel.addEventListener('click', handleHistoryPanelClicked);

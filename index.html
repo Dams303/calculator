@@ -1,22 +1,15 @@
 <head>
-   <title>Calculator</title>
-   <link rel="stylesheet" href="style.css">
    <meta charset="utf-8">
+   <link rel="stylesheet" href="style.css">
+   <title>Calculator</title>
 </head>
 <body>
-<div id="background_opacity"></div>
+<div id="background-opacity"></div>
+<div id="background-image"></div>
 <div id="main-container">
     <div id="top-menu">
-        <div id="help-btn" class="ck-button">
-            <label>
-                <input type="checkbox" value="1"><span></span>
-            </label>
-        </div>
-        <div id="history-btn" class="ck-button">
-            <label>
-                <input type="checkbox" value="1"><span></span>
-            </label>
-        </div>
+        <div id="help-btn" class="ck-button"></div>
+        <div id="history-btn" class="ck-button"></div>
     </div>
     <div id=screen>
         <div id="secondary-output"></div>
@@ -34,11 +27,9 @@
         <button data-sep="" class="key" style="grid-area: sep">.</button>
         
     </div>
-        <!-- <div id="menu"> -->
         <div id="credits">designed by Dams303</div>
 </div>
 <div id="help" class="help-anim">
-    <!-- <div> -->
         <table>
             <thead>
                 <tr>
@@ -50,7 +41,7 @@
                 <td>Add</td> <td><kbd>+</kbd></td>
             </tr>
             <tr>
-                <td>substract</td> <td><kbd>-</kbd></td>
+                <td>Substract</td> <td><kbd>-</kbd></td>
             </tr>
             <tr>
                 <td>Mulitply</td> <td><kbd>×</kbd></td>
@@ -62,7 +53,7 @@
                 <td>Percentage</td> <td><kbd>%</kbd></td>
             </tr>
             <tr>
-                <td>=</td> <td><kbd>Enter</kbd></td>
+                <td>Operate</td> <td><kbd>Enter</kbd></td>
             </tr>
             <tr>
                 <td>Undo</td> <td><kbd>Backspace</kbd></td>
@@ -70,13 +61,18 @@
             <tr>
                 <td>Reset</td> <td><kbd>Esc</kbd></td>
             </tr>
+            <tr>
+                <td>History</td> <td><kbd>h</kbd></td>
+            </tr>
+            <tr>
+                <td>Display this panel</td> <td><kbd>k</kbd></td>
+            </tr>
             </tbody>
         </table>
     </div> 
     <div id="history" class="history-anim">
         <div>...</div>
     </div>
-    <!-- </div>   -->
 </div>
 <script src="calculator.js"></script>
 <script src="main.js"></script>
