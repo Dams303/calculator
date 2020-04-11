@@ -2,7 +2,7 @@ body {
     height: 100%;
     display: flex;
     align-items: center;
-    background-image: url("./images/test22.jpg");
+    background-image: url("./images/background.jpg");
     background-attachment: fixed;
     background-size: cover;
     background-position: center center;
@@ -252,7 +252,6 @@ kbd {
 #history span:hover {
   border-radius: 4px;
   border:1px solid rgba(208, 208, 208, 0.0);
-  background-color: blue;
   background-color: silver;
 }
 
@@ -277,13 +276,13 @@ kbd {
 }
 
 #help-btn {
-  background-image: url('./icon-keyboard.png');
+  background-image: url('./images/icon-keyboard.png');
   margin-left: 30px; 
   width: 40px; 
 }
 
 #history-btn {
-  background-image: url('./icon-history.png');
+  background-image: url('./images/icon-history.png');
   margin-left: 2px;
   width: 40px; 
 }
@@ -299,7 +298,23 @@ kbd {
 }
 
 /* History panel */
-#history div {
-  display: flex;
+#history-header {
+  width: 100%;
+  height: 30px;
+}
+
+#history-clear-btn {
+  background-image: url('./images/icon-trash.png');
+  filter: contrast(0.4);
+  background-size: 20px 18px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 20px; 
+  width: 20px; 
+  padding-left: 31px;
+  padding-top: 12px;
+}
+
+#history-entries div{
   padding : 10px;
 }

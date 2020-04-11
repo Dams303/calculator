@@ -79,19 +79,18 @@ helpBtn.addEventListener('click', e => {
 
 // history button
 let historyBtn = document.getElementById('history-btn');
-console.log(historyBtn);
 
 historyBtn.addEventListener('click', e => {
     historyBtn.classList.toggle('ck-btn-checked');
     historyPanel.style.display = historyBtn.classList.contains('ck-btn-checked')? 'block' : 'none';
 });
 
-
 // history panel
 let historyPanel = document.getElementById('history');
+let historyEntries = document.getElementById('history-entries');
 
 function createHistoryEntry(index) {
-    let row = historyPanel.appendChild(document.createElement('div'));
+    let row = historyEntries.appendChild(document.createElement('div'));
     row.setAttribute('id', 'hist' + index);
     row.dataset.num = index;
 
@@ -117,9 +116,14 @@ function updateHistoryPanel() {
             row = createHistoryEntry(index);
         
         row.children[0].textContent = c.generateDisplay(input.slice(0, input.length-2));
-        row.children[1].textContent = c.generateDisplay(input.slice(-1));
+        row.children[1].textContent = c.generateDisplay(input.slice(-1));   
+    });
+
+
+        if (!c.history.length) {
+            document.getElementById('history-entries').textContent = ''; 
     }
-);}
+}
 
 
 let handleHistoryPanelClicked = (e) => {
@@ -139,3 +143,12 @@ let handleHistoryPanelClicked = (e) => {
 }
 
 historyPanel.addEventListener('click', handleHistoryPanelClicked);
+
+
+let clearHistoryBtn = document.getElementById('history-clear-btn'); 
+
+clearHistoryBtn.addEventListener('click', e => {
+    console.log(e);
+    c.clearHistory();
+    updateDisplay();
+});

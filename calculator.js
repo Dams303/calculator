@@ -39,6 +39,8 @@ createCalculator = function () {
 
     c.input = ['0'];
     c.history = [];
+
+    c.clearHistory = () => c.history = [];
     c.currentPos = () => c.input.length - 1;
     c.currentInput = () => c.input[c.currentPos()];
     c.isCurrentOperator = () => c.isOperator(c.currentInput());
