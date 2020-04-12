@@ -35,10 +35,25 @@ function keyClicked(e) {
 let mainOutput = document.getElementById('main-output');
 let secondaryOutput = document.getElementById('secondary-output');
 
+adaptContainerFontSize = (container) => 
+{
+    // current font-size-height: 40px;
+    // current container-size: 316 x 51
+    //const containerWidth = container.style.width;
+    
+    const textLength = container.textContent.length;
+    let style = container.style; 
+    const lengthLimit = 13;
+    const originalFontSize = 40;
+    const size = Math.floor (100* 40 * lengthLimit / textLength)/100;
+    style.fontSize = (textLength <= lengthLimit ? originalFontSize : size) + 'px';
+}
+
 function updateDisplay() {
     mainOutput.textContent = c.getDisplay();
     secondaryOutput.textContent = c.getLastResult();
 
+    adaptContainerFontSize(mainOutput);
     updateHistoryPanel();
 }
 let c = createCalculator();

@@ -91,7 +91,8 @@ createCalculator = function () {
 
     c.undo = () => { 
         c.cleanInput(true);
-        if (c.isCurrentOperator() || c.currentInput().length <= 1 || c.currentInput() == 'Infinity') c.input.pop();
+        if (c.isCurrentOperator() || c.currentInput().length <= 1 || c.currentInput() == 'Infinity'
+           || c.currentInput() == 'NaN') c.input.pop();
         else
             c.input[c.currentPos()] = c.currentInput().substring(0, c.currentInput().length - 1);
 
