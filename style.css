@@ -249,6 +249,7 @@ kbd {
 #history-entries div {
   padding : 10px;
   display: flex;
+  font-size: 14px;
 }
 
 #history span {
